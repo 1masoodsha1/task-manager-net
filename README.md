@@ -33,7 +33,7 @@ BE
 
 FE
 - NPM (or Yarn)
-- Port 4200 must be available (default for Vite)
+- Port 4200 must be available 
 
 ### **Steps**
 
