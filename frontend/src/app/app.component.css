@@ -1,0 +1,5 @@
+.page { padding: 16px; font-family: Arial, sans-serif; }
+.page-header { margin-bottom: 16px; }
+.layout { display:flex; gap: 32px; }
+.layout-column { flex: 1; }
+.alert-error { color: #c00; padding:8px 0; }
