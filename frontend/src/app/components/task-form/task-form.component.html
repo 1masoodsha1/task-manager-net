@@ -20,12 +20,15 @@
   </div>
 
   <div>
-    <label>Due date</label>
-    <input type="date" formControlName="dueDate" />
+    <label>Due date & time</label>
+    <input type="datetime-local" formControlName="dueDate" />
+    <div *ngIf="hasPastDueDateError" class="error">
+      Past due date/time is only allowed for completed tasks.
+    </div>
   </div>
 
   <div class="buttons">
-    <button type="submit" [disabled]="form.invalid">Save</button>
+    <button type="submit" [disabled]="form.invalid || hasPastDueDateError">Save</button>
     <button type="button" (click)="onCancel()">Cancel</button>
   </div>
 </form>

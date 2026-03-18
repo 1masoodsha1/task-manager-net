@@ -18,8 +18,8 @@ Above all, relax and have fun with it. Treat this as a chance to show how you na
 
 This project contains two separate applications:
 
-- **Backend** — ASP.NET Core Web API 
-- **Frontend** — Angular 12 
+- **Backend** — .NET Core Web API 
+- **Frontend** — Angular 18 
 
 You must run **both** for the application to work.
 

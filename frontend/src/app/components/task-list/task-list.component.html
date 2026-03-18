@@ -4,26 +4,39 @@
     <button (click)="onRefresh()" [disabled]="loading">Refresh</button>
   </div>
 
-  <div *ngIf="loading">Loading...</div>
-  <div *ngIf="!loading && tasks.length === 0">No tasks yet</div>
-
-  <ul *ngIf="!loading && tasks.length>0">
-    <li *ngFor="let t of tasks">
+  @if (loading) {
+  <div>Loading...</div>
+  } @else if (tasks.length === 0) {
+  <div>No tasks yet</div>
+  } @else {
+  <ul>
+    @for (task of tasks; track task.id) {
+    <li>
       <div class="row">
         <div class="main">
-          <strong>{{ t.title }}</strong>
+          <strong>{{ task.title }}</strong>
           <div class="meta">
-            <span class="status">{{ t.status }}</span>
-            <span *ngIf="t.dueDate"> • due {{ t.dueDate | date }}</span>
+            <span class="status">{{ task.status }}</span>
+            @if (isOverdue(task)) {
+            <span class="overdue-badge"> • OVERDUE</span>
+            }
+            @if (task.dueDate) {
+            <span> • due {{ task.dueDate | date:'medium' }}</span>
+            }
           </div>
-          <div class="desc" *ngIf="t.description">{{ t.description }}</div>
+
+          @if (task.description) {
+          <div class="desc">{{ task.description }}</div>
+          }
         </div>
 
         <div class="actions">
-          <button (click)="onEdit(t)">Edit</button>
-          <button (click)="onDelete(t.id)">Delete</button>
+          <button (click)="onEdit(task)">Edit</button>
+          <button (click)="onDelete(task.id)">Delete</button>
         </div>
       </div>
     </li>
+    }
   </ul>
+  }
 </div>

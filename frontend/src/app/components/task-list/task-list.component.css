@@ -2,3 +2,4 @@
 .task-list .meta { color: var(--muted); font-size: 12px; }
 .actions button { margin-left: 6px; padding:6px 10px; border-radius:4px; border:0; background:#eee; cursor:pointer; }
 .actions button:hover { background:#ddd; }
+.overdue-badge { color: #c00; font-weight: 700; }

@@ -1,9 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { TaskService } from './services/task.service';
 import { Task, TaskCreateOrUpdate } from './models/task.model';
+import { TaskFormComponent } from './components/task-form/task-form.component';
+import { TaskListComponent } from './components/task-list/task-list.component';
 
 @Component({
 selector: 'app-root',
+standalone: true,
+imports: [CommonModule, TaskFormComponent, TaskListComponent],
 templateUrl: './app.component.html',
 styleUrls: ['./app.component.css']
 })
@@ -22,42 +27,69 @@ constructor(private svc: TaskService) {}
   loadTasks() {
     this.loading = true;
     this.error = null;
+
     this.svc.getTasks().subscribe({
-      next: data => { this.tasks = data; this.loading = false; },
-      error: err => { this.error = err?.message ?? 'Failed to load tasks'; this.loading = false; }
+      next: data => {
+        this.tasks = data;
+        this.loading = false;
+      },
+      error: err => {
+        this.error = err?.message ?? 'Failed to load tasks';
+        this.loading = false;
+      }
     });
   }
 
   handleCreateOrUpdate(taskInput: TaskCreateOrUpdate) {
     this.error = null;
+
     if (this.editingTask) {
       this.svc.updateTask(this.editingTask.id, taskInput).subscribe({
         next: updated => {
           this.tasks = this.tasks.map(t => t.id === updated.id ? updated : t);
           this.editingTask = null;
         },
-        error: err => this.error = err?.message ?? 'Failed to save task'
+        error: err => {
+          this.error = err?.message ?? 'Failed to save task';
+        }
       });
     } else {
       this.svc.createTask(taskInput).subscribe({
-        next: created => this.tasks = [...this.tasks, created],
-        error: err => this.error = err?.message ?? 'Failed to save task'
+        next: created => {
+          this.tasks = [...this.tasks, created];
+        },
+        error: err => {
+          this.error = err?.message ?? 'Failed to save task';
+        }
       });
     }
   }
 
-  onEdit(t: Task) { this.editingTask = t; }
+  onEdit(task: Task) {
+    this.editingTask = task;
+  }
+
   onDelete(id: number) {
     this.error = null;
+
     this.svc.deleteTask(id).subscribe({
       next: () => {
         this.tasks = this.tasks.filter(t => t.id !== id);
-        if (this.editingTask && this.editingTask.id === id) this.editingTask = null;
+        if (this.editingTask && this.editingTask.id === id) {
+          this.editingTask = null;
+        }
       },
-      error: err => this.error = err?.message ?? 'Failed to delete task'
+      error: err => {
+        this.error = err?.message ?? 'Failed to delete task';
+      }
     });
   }
 
-  onRefresh() { this.loadTasks(); }
-  onCancelEdit() { this.editingTask = null; }
+  onRefresh() {
+    this.loadTasks();
+  }
+
+  onCancelEdit() {
+    this.editingTask = null;
+  }
 }
