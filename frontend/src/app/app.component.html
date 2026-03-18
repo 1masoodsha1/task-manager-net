@@ -1,0 +1,28 @@
+<div class="page">
+  <header class="page-header">
+    <h1>Task Manager</h1>
+    <p class="subtitle">Manage tasks: create, view, update, and delete them.</p>
+  </header>
+
+  <main class="layout">
+    <div class="layout-column">
+      <app-task-form
+        [initialTask]="editingTask"
+        (submitTask)="handleCreateOrUpdate($event)"
+        (cancelEdit)="onCancelEdit()"
+      ></app-task-form>
+
+      <div *ngIf="error" class="alert alert-error">{{ error }}</div>
+    </div>
+
+    <div class="layout-column">
+      <app-task-list
+        [tasks]="tasks"
+        [loading]="loading"
+        (edit)="onEdit($event)"
+        (delete)="onDelete($event)"
+        (refresh)="onRefresh()"
+      ></app-task-list>
+    </div>
+  </main>
+</div>

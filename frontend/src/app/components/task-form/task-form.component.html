@@ -1,0 +1,31 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="task-form">
+  <div>
+    <label>Title</label>
+    <input formControlName="title" />
+    <div *ngIf="form.get('title')?.invalid && form.get('title')?.touched" class="error">
+      Title is required
+    </div>
+  </div>
+
+  <div>
+    <label>Description</label>
+    <textarea formControlName="description"></textarea>
+  </div>
+
+  <div>
+    <label>Status</label>
+    <select formControlName="status">
+      <option *ngFor="let s of statuses" [value]="s">{{ s }}</option>
+    </select>
+  </div>
+
+  <div>
+    <label>Due date</label>
+    <input type="date" formControlName="dueDate" />
+  </div>
+
+  <div class="buttons">
+    <button type="submit" [disabled]="form.invalid">Save</button>
+    <button type="button" (click)="onCancel()">Cancel</button>
+  </div>
+</form>

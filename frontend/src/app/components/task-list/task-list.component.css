@@ -1,0 +1,4 @@
+.task-list .row { display:flex; justify-content:space-between; align-items:flex-start; padding:8px 0; border-bottom:1px solid #eee; }
+.task-list .meta { color: var(--muted); font-size: 12px; }
+.actions button { margin-left: 6px; padding:6px 10px; border-radius:4px; border:0; background:#eee; cursor:pointer; }
+.actions button:hover { background:#ddd; }

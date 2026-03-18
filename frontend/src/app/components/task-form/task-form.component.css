@@ -1,0 +1,7 @@
+.task-form { display: flex; flex-direction: column; gap: 8px; max-width: 420px; }
+.error { color: #c00; font-size: 12px; }
+.buttons { display:flex; gap:8px; }
+.task-form label { font-weight:600; }
+.task-form input, .task-form textarea, .task-form select { width:100%; padding:8px; border-radius:6px; border:1px solid #e6e9ef; }
+.task-form button { padding:8px 12px; border-radius:6px; border:0; color:#fff; background:var(--accent); }
+.task-form button[type="button"] { background:#6c757d; }

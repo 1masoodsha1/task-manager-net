@@ -1,0 +1,29 @@
+<div class="task-list">
+  <div class="list-header">
+    <h3>Tasks</h3>
+    <button (click)="onRefresh()" [disabled]="loading">Refresh</button>
+  </div>
+
+  <div *ngIf="loading">Loading...</div>
+  <div *ngIf="!loading && tasks.length === 0">No tasks yet</div>
+
+  <ul *ngIf="!loading && tasks.length>0">
+    <li *ngFor="let t of tasks">
+      <div class="row">
+        <div class="main">
+          <strong>{{ t.title }}</strong>
+          <div class="meta">
+            <span class="status">{{ t.status }}</span>
+            <span *ngIf="t.dueDate"> • due {{ t.dueDate | date }}</span>
+          </div>
+          <div class="desc" *ngIf="t.description">{{ t.description }}</div>
+        </div>
+
+        <div class="actions">
+          <button (click)="onEdit(t)">Edit</button>
+          <button (click)="onDelete(t.id)">Delete</button>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>

@@ -1,0 +1,145 @@
+/* You can add global styles to this file, and also import other style files */
+:root{
+  --primary:#2c3e50;
+  --accent:#007bff;
+  --muted:#6c757d;
+  --error:#c00;
+  --bg:#f7f9fb;
+  --card-bg: #ffffff;
+  --card-shadow: 0 1px 3px rgba(15,23,42,0.06);
+  --radius: 8px;
+}
+
+* { box-sizing: border-box; }
+html,body { height: 100%; }
+body {
+  margin: 0;
+  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg);
+  color: #1f2937;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+/* Page layout */
+.page {
+  max-width: 1100px;
+  margin: 26px auto;
+  padding: 18px;
+}
+.page-header { margin-bottom: 14px; }
+.page-header h1 {
+  margin: 0;
+  font-size: 28px;
+  color: var(--primary);
+}
+.subtitle {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* Two-column layout */
+.layout {
+  display: flex;
+  gap: 28px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+.layout-column { flex: 1 1 420px; }
+
+/* Generic cards */
+.card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: var(--card-shadow);
+  padding: 14px;
+}
+
+/* Alerts */
+.alert { padding: 10px 12px; border-radius: 6px; margin-top: 12px; }
+.alert-error { background: #fff6f6; border: 1px solid #f3c6c6; color: var(--error); }
+
+/* Task form */
+.task-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--card-bg);
+  padding: 12px;
+  border-radius: 8px;
+  box-shadow: var(--card-shadow);
+}
+.task-form label { display:block; font-weight:600; margin-bottom:6px; color:#233044; }
+.task-form input[type="text"], .task-form textarea, .task-form select, .task-form input[type="date"]{
+  width:100%;
+  padding:8px 10px;
+  border: 1px solid #e6e9ef;
+  border-radius:6px;
+  font-size:14px;
+  background: #fff;
+  color: #111827;
+}
+.task-form textarea { min-height:72px; resize: vertical; }
+.task-form .buttons { display:flex; gap:8px; }
+.task-form button {
+  padding:8px 12px;
+  border-radius:6px;
+  border: none;
+  cursor: pointer;
+  font-weight:600;
+}
+.task-form button[type="submit"]{
+  background: var(--accent);
+  color:#fff;
+}
+.task-form button[type="button"]{
+  background:#6c757d;color:#fff;
+}
+.error { color: var(--error); font-size: 12px; }
+
+/* Task list */
+.task-list {
+  background: var(--card-bg);
+  padding: 12px;
+  border-radius: 8px;
+  box-shadow: var(--card-shadow);
+}
+.list-header {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom: 10px;
+}
+.list-header h3 { margin:0; font-size:18px; }
+.task-list ul { list-style:none; padding:0; margin:0; }
+.task-list li {
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:12px;
+  padding:10px 0;
+  border-bottom: 1px solid #f0f2f5;
+}
+.task-list li:last-child { border-bottom: none; }
+.task-list .main { flex:1; }
+.task-list .main strong { display:block; font-size:16px; margin-bottom:6px; }
+.meta { color: var(--muted); font-size:12px; }
+.desc { margin-top: 6px; color:#374151; font-size:14px; }
+
+/* Actions */
+.actions { display:flex; align-items:center; gap:8px; }
+.actions button {
+  background: #f3f4f6;
+  border: 1px solid #e6e8ec;
+  color: #111827;
+  padding:6px 10px;
+  border-radius:6px;
+  cursor:pointer;
+  font-weight:600;
+}
+.actions button:hover { background: #e8eaed; }
+
+/* small helpers */
+.status { font-weight:700; color:#243046; font-size:12px; }
+button[disabled] { opacity:0.6; cursor:not-allowed; }
