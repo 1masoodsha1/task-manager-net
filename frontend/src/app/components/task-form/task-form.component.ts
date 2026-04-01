@@ -4,21 +4,21 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Task, TaskCreateOrUpdate, TaskStatus } from '../../models/task.model';
 
 @Component({
-selector: 'app-task-form',
-standalone: true,
-imports: [CommonModule, ReactiveFormsModule],
-templateUrl: './task-form.component.html',
-styleUrls: ['./task-form.component.css']
+  selector: 'app-task-form',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule],
+  templateUrl: './task-form.component.html',
+  styleUrls: ['./task-form.component.css']
 })
 export class TaskFormComponent implements OnChanges {
-@Input() initialTask: Task | null = null;
-@Output() submitTask = new EventEmitter<TaskCreateOrUpdate>();
-@Output() cancelEdit = new EventEmitter<void>();
+  @Input() initialTask: Task | null = null;
+  @Output() submitTask = new EventEmitter<TaskCreateOrUpdate>();
+  @Output() cancelEdit = new EventEmitter<void>();
 
-form: FormGroup;
-statuses: TaskStatus[] = ['TODO', 'IN_PROGRESS', 'DONE'];
+  form: FormGroup;
+  statuses: TaskStatus[] = ['TODO', 'IN_PROGRESS', 'DONE'];
 
-constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder) {
     this.form = this.fb.group({
       title: ['', Validators.required],
       description: [''],
@@ -27,68 +27,84 @@ constructor(private fb: FormBuilder) {
     });
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes.initialTask) {
-      const t: Task | null = this.initialTask;
-
-      if (t) {
-        this.form.patchValue({
-          title: t.title,
-          description: t.description ?? '',
-          status: t.status,
-          dueDate: this.toDateTimeLocalValue(t.dueDate)
-        });
-      } else {
-        this.form.reset({
-          title: '',
-          description: '',
-          status: 'TODO',
-          dueDate: ''
-        });
-      }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (!changes['initialTask']) {
+      return;
     }
+
+    const task = this.initialTask;
+
+    if (task) {
+      this.form.patchValue({
+        title: task.title ?? '',
+        description: task.description ?? '',
+        status: task.status ?? 'TODO',
+        dueDate: this.toDateTimeLocalValue(task.dueDate)
+      });
+      return;
+    }
+
+    this.resetForm();
+  }
+
+  get hasTitleError(): boolean {
+    const title = (this.form.get('title')?.value as string | null) ?? '';
+    return !title.trim();
   }
 
   get hasPastDueDateError(): boolean {
-    const dueDate = this.form.get('dueDate')?.value as string;
-    const status = this.form.get('status')?.value as TaskStatus;
+    const dueDate = (this.form.get('dueDate')?.value as string | null) ?? '';
+    const status = (this.form.get('status')?.value as TaskStatus | null) ?? 'TODO';
 
-    if (!dueDate || status === 'DONE') return false;
+    if (!dueDate || status === 'DONE') {
+      return false;
+    }
 
-    const selected = new Date(dueDate);
-    const now = new Date();
-
-    return selected.getTime() < now.getTime();
+    return new Date(dueDate).getTime() < new Date().getTime();
   }
 
-  onSubmit() {
-    if (!this.form.valid || this.hasPastDueDateError) return;
+  onSubmit(): void {
+    if (this.hasTitleError || this.hasPastDueDateError) {
+      return;
+    }
 
-    const val = this.form.value;
+    const title = ((this.form.get('title')?.value as string | null) ?? '').trim();
+    const descriptionValue = ((this.form.get('description')?.value as string | null) ?? '').trim();
+    const status = ((this.form.get('status')?.value as TaskStatus | null) ?? 'TODO');
+    const dueDate = (this.form.get('dueDate')?.value as string | null) ?? '';
+
     const payload: TaskCreateOrUpdate = {
-      title: val.title,
-      description: val.description || null,
-      status: val.status,
-      dueDate: val.dueDate ? new Date(val.dueDate).toISOString() : null
+      title,
+      description: descriptionValue ? descriptionValue : null,
+      status,
+      dueDate: dueDate ? new Date(dueDate).toISOString() : null
     };
 
     this.submitTask.emit(payload);
+
+    if (!this.initialTask) {
+      this.resetForm();
+    }
   }
 
-  onCancel() {
+  onCancel(): void {
     this.cancelEdit.emit();
   }
 
+  private resetForm(): void {
+    this.form.reset({
+      title: '',
+      description: '',
+      status: 'TODO',
+      dueDate: ''
+    });
+  }
+
   private toDateTimeLocalValue(value?: string | null): string {
-    if (!value) return '';
+    if (!value) {
+      return '';
+    }
 
-    const date = new Date(value);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
-
-    return `${year}-${month}-${day}T${hours}:${minutes}`;
+    return value.slice(0, 16);
   }
 }

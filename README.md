@@ -18,8 +18,8 @@ Above all, relax and have fun with it. Treat this as a chance to show how you na
 
 This project contains two separate applications:
 
-- **Backend** — .NET Core Web API 
-- **Frontend** — Angular 18 
+- **Backend** — .NET Core Web API
+- **Frontend** — Angular 18
 
 You must run **both** for the application to work.
 
@@ -29,11 +29,11 @@ You must run **both** for the application to work.
 
 ### **Requirements**
 BE
-- Port **5000** must be free
+- Port **5000** should be available
 
 FE
 - NPM (or Yarn)
-- Port 4200 must be available 
+- Port **4200** should be available
 
 ### **Steps**
 
@@ -41,7 +41,7 @@ BE
 1. Navigate to the backend directory:
 
    ```bash
-   cd TaskManagerBackend
+   cd backend
    ```
 2. Start the .NET application:
 
@@ -50,6 +50,7 @@ BE
    dotnet build
    dotnet run
    ```
+
 FE
 1. Navigate to the frontend directory:
    ```bash
@@ -60,17 +61,9 @@ FE
    npm install
    ```
 3. Start the development server:
+   ```bash
+   npm start
    ```
-   npm start 
-   ```
----
-
-### Tech Stack
-
-- **ASP.NET Core Web API**
-- **Entity Framework Core** (SQLite for local dev)
-- Swagger UI for API exploration
-
 ---
 
 ## Current API Overview
@@ -78,9 +71,9 @@ FE
 The backend exposes a simple REST API for managing tasks under the base path:
 
 ```text
-GET    /api/tasks            → list all tasks
-GET    /api/tasks/{id}       → return task by id (404 if not found)
-POST   /api/tasks            → create a new task, returns created resource (201)
-PUT    /api/tasks/{id}       → update an existing task
-DELETE /api/tasks/{id}       → delete a task (204 on success)
+GET     /api/tasks/           List all tasks
+POST    /api/tasks/           Create a new task
+GET     /api/tasks/{id}/      Get one task by ID
+PUT     /api/tasks/{id}/      Update a task by ID
+DELETE  /api/tasks/{id}/      Delete a task by ID
 ```
